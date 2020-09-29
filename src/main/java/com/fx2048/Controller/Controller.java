@@ -1,16 +1,20 @@
 package com.fx2048.Controller;
 
 import com.fx2048.Model.Board;
-import javafx.event.EventHandler;
+import com.fx2048.View.View;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-
-import java.io.IOException;
+import javafx.scene.layout.StackPane;
 
 public class Controller {
-    public Controller(Scene scene, int size) {
-        Board board = new Board(size);
+    private Board board;
+    private View view;
+
+    public Controller(StackPane root, Scene scene, int size) {
+        board = new Board(size);
+        this.view = new View(root, scene, board);
+        board.registerObservable(view);
+
         scene.setOnKeyPressed(keyEvent -> {
             KeyCode keyCode = keyEvent.getCode();
             switch (keyCode) {
@@ -43,10 +47,6 @@ public class Controller {
                     System.out.println(board.getScore());
                 }
             }
-
         });
-
     }
-
-
 }

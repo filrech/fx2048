@@ -6,8 +6,10 @@ import com.fx2048.Model.Grid;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -25,12 +27,10 @@ public class App extends Application {
             System.out.println("Нет иконки");
         }
         stage.setResizable(false);
-        stage.setX(400);
-        stage.setY(400);
 
-        Group root = new Group();
-        Scene scene = new Scene(root, 400, 400);
-        Controller controller = new Controller(scene, 4);
+        StackPane root = new StackPane();
+        Scene scene = new Scene(root, 450, 530);
+        Controller controller = new Controller(root, scene, 4);
 
         stage.setScene(scene);
         stage.show();

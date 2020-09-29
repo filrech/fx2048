@@ -1,15 +1,22 @@
 package com.fx2048.Model;
 
-public class Board {
+import com.fx2048.View.Observer;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Board implements Observable {
     private int score;
     private Grid grid;
     private boolean isOver;
     private boolean moved;
+    private List<Observer> observers;
 
     public Board(int size) {
         this.score = 0;
         this.grid = new Grid(size);
         this.isOver = false;
+        this.observers = new ArrayList<Observer>();
         addTile();
         addTile();
     }
@@ -33,6 +40,10 @@ public class Board {
             }
             System.out.println("");
         }
+    }
+
+    public Grid getGrid() {
+        return this.grid;
     }
 
     public int getScore() {
@@ -80,6 +91,7 @@ public class Board {
             }
         }
         if (moved) addTile();
+        notifyAllObservers();
     }
 
     public void moveDown() {
@@ -95,6 +107,7 @@ public class Board {
             }
         }
         if (moved) addTile();
+        notifyAllObservers();
     }
 
 
@@ -111,6 +124,7 @@ public class Board {
             }
         }
         if (moved) addTile();
+        notifyAllObservers();
     }
 
     public void moveRight() {
@@ -126,6 +140,7 @@ public class Board {
             }
         }
         if (moved) addTile();
+        notifyAllObservers();
     }
 
     private void addTile() {
@@ -158,4 +173,20 @@ public class Board {
         return true;
     }
 
+    @Override
+    public void registerObservable(Observer observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void notifyAllObservers() {
+        for (Observer observers: observers) {
+            try {
+                observers.notification(this);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println("lolChto ");
+    }
 }
