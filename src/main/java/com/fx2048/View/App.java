@@ -1,17 +1,11 @@
 package com.fx2048.View;
 
 import com.fx2048.Controller.Controller;
-import com.fx2048.Model.Board;
-import com.fx2048.Model.Grid;
 import javafx.application.Application;
-import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 /**
  * JavaFX App

@@ -9,42 +9,34 @@ import javafx.scene.layout.StackPane;
 public class Controller {
     private Board board;
     private View view;
+    private StackPane root;
+    private int size;
+    private Scene scene;
 
     public Controller(StackPane root, Scene scene, int size) {
-        board = new Board(size);
-        this.view = new View(root, scene, board);
+        this.board = new Board(size);
+        this.view = new View(root, scene, board, this);
+        this.size = size;
+        this.scene = scene;
         board.registerObservable(view);
+        board.notifyAllObservers();
 
         scene.setOnKeyPressed(keyEvent -> {
             KeyCode keyCode = keyEvent.getCode();
-            switch (keyCode) {
-                case UP, W -> {
-                    board.moveUp();
-                    board.showBoard();
-                    System.out.println("");
-                    System.out.println(board.isOver());
-                    System.out.println(board.getScore());
-                }
-                case LEFT, A -> {
-                    board.moveLeft();
-                    board.showBoard();
-                    System.out.println("");
-                    System.out.println(board.isOver());
-                    System.out.println(board.getScore());
-                }
-                case DOWN, S -> {
-                    board.moveDown();
-                    board.showBoard();
-                    System.out.println("");
-                    System.out.println(board.isOver());
-                    System.out.println(board.getScore());
-                }
-                case RIGHT, D -> {
-                    board.moveRight();
-                    board.showBoard();
-                    System.out.println("");
-                    System.out.println(board.isOver());
-                    System.out.println(board.getScore());
+            if (!board.isOver()){
+                switch (keyCode) {
+                    case W -> {
+                        board.moveUp();
+                    }
+                    case A -> {
+                        board.moveLeft();
+                    }
+                    case S -> {
+                        board.moveDown();
+                    }
+                    case D -> {
+                        board.moveRight();
+                    }
                 }
             }
         });

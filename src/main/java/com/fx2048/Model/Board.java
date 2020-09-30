@@ -12,6 +12,13 @@ public class Board implements Observable {
     private boolean moved;
     private List<Observer> observers;
 
+    public Board() {
+        this.score = 0;
+        this.grid = new Grid(4);
+        this.isOver = false;
+        this.observers = new ArrayList<Observer>();
+    }
+
     public Board(int size) {
         this.score = 0;
         this.grid = new Grid(size);
@@ -33,26 +40,13 @@ public class Board implements Observable {
         grid.setValue(x, y, number);
     }
 
-    public void showBoard() {
-        for (int i = 0; i < grid.getSize(); i++) {
-            for (int j = 0; j < grid.getSize(); j++) {
-                System.out.print(grid.getValue(i, j) + " ");
-            }
-            System.out.println("");
-        }
-    }
-
-    public Grid getGrid() {
-        return this.grid;
-    }
-
     public int getScore() {
         return this.score;
     }
 
     private void moveTile(int x, int y, int dx, int dy) {
         if (grid.getValue(x, y) > 0) {
-            while (grid.getValue(x + dx, y + dy) == 0) {
+            while (spaceAvailable(x + dx, y + dy)) {
                 grid.setValue(x + dx, y + dy, grid.getValue(x, y));
                 grid.setValue(x, y, 0);
                 x += dx;
@@ -67,6 +61,7 @@ public class Board implements Observable {
             if (grid.getValue(x + dx, y + dy) == grid.getValue(x, y)) {
                 grid.setValue(x + dx, y + dy, (grid.getValue(x, y)) * 2);
                 this.score += grid.getValue(x, y) * 2;
+                if (grid.getValue(x, y) * 2 >= 2048) this.isOver = true;
                 while (grid.getValue(x - dx, y - dy) > 0) {
                     grid.setValue(x, y, grid.getValue(x - dx, y - dy));
                     x -= dx;
@@ -159,6 +154,7 @@ public class Board implements Observable {
     }
 
     public boolean isOver() {
+        if (this.isOver == true) return true;
         for (int x = 0; x < grid.getSize(); x++) {
             for (int y = 0; y < grid.getSize(); y++) {
                 if (spaceAvailable(x,y)) return false;
@@ -187,6 +183,5 @@ public class Board implements Observable {
                 e.printStackTrace();
             }
         }
-        System.out.println("lolChto ");
     }
 }
