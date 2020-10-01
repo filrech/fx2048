@@ -11,10 +11,12 @@ import javafx.stage.Stage;
  * JavaFX App
  */
 public class App extends Application {
+    Stage stage;
 
     @Override
     public void start(Stage stage) {
         stage.setTitle("2048");
+        this.stage = stage;
         try {
             stage.getIcons().add(new Image(getClass().getResourceAsStream("/icon.png")));
         } catch (Exception e) {
@@ -24,10 +26,14 @@ public class App extends Application {
 
         StackPane root = new StackPane();
         Scene scene = new Scene(root, 450, 530);
-        Controller controller = new Controller(root, scene, 4);
+        Controller controller = new Controller(root, scene, 4, this);
 
         stage.setScene(scene);
         stage.show();
+    }
+
+    public void restart() {
+        start(stage);
     }
 
     public static void main(String[] args) {

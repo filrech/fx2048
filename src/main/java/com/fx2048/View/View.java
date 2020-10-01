@@ -37,6 +37,7 @@ public class View implements Observer {
         Button button = new Button();
         button.setText("Reset");
         button.setStyle("-fx-text-fill: #776E65; -fx-background-color: #BBADA0; -fx-font-size: 30");
+        button.setOnAction(actionEvent -> controller.reset());
 
         root.getChildren().add(1, button);
         root.setAlignment(button, Pos.TOP_RIGHT);
